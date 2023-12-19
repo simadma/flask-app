@@ -1,0 +1,25 @@
+name: Updating Web App
+run-name: ${{ github.actor }} is updating the Web App 🚀
+on:
+  push:
+    branches:
+    - main
+jobs:
+  build:
+    name: Update Web App
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout main
+      uses: actions/checkout@v4.1.1
+    
+    - name: SSH-ing into DigitalOcean droplet
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host:  ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: |
+          whoami
+          ls -al
+      
