@@ -13,13 +13,11 @@ jobs:
     - name: Checkout main
       uses: actions/checkout@v4.1.1
     
-    - name: SSH-ing into DigitalOcean droplet
-      uses: appleboy/ssh-action@v1.0.0
+    - name: Copy files into cloud server
+      uses: appleboy/scp-action@v0.1.4
       with:
         host:  ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
-        script: |
-          whoami
-          ls -al
-      
+        source: "."
+        target: /var/www/flask-app      
