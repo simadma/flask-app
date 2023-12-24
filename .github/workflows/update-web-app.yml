@@ -27,7 +27,7 @@ jobs:
 
     - name: Sync newest changes to cloud server
       run: |
-        rsync -avzn --delete \
+        rsync -avzn --delete --exclude=".*" \
           . ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/flask-app
     
 #    - name: Copy files into cloud server
