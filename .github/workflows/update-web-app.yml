@@ -16,11 +16,11 @@ jobs:
     - name: Checkout main
       uses: actions/checkout@v4.1.1
 
-    - name: Check if rsync is installed and install if not
+    - name: Sync newest changes to cloud server
       run: |
-        which which
-        which rsync
-        sudo apt-get install -y rsync
+        rsync -avzn --delete \
+          -e "ssh -i ${{ secrets.KEY }}" \
+          . ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/flask-app
     
 #    - name: Copy files into cloud server
 #      uses: appleboy/scp-action@v0.1.4
