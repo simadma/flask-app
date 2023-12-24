@@ -29,12 +29,10 @@ jobs:
       run: |
         rsync -avzn --delete --exclude=".*" \
           . ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/flask-app
-    
-#    - name: Copy files into cloud server
-#      uses: appleboy/scp-action@v0.1.4
-#      with:
-#        host:  ${{ secrets.HOST }}
-#        username: ${{ secrets.USERNAME }}
-#        key: ${{ secrets.KEY }}
-#        source: "."
-#        target: /var/www/flask-app      
+
+    - name: Restart gunicorn and nginx services
+      run: |
+        ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} \
+          "sudo systemctl restart flask-app && \
+          sleep 5 && \
+          sudo systemctl restart nginx"
