@@ -4,6 +4,8 @@ on:
   push:
     branches:
     - main
+  pull_request:
+    - '*'
 jobs:
   build:
     name: Update Web App
@@ -12,12 +14,18 @@ jobs:
 
     - name: Checkout main
       uses: actions/checkout@v4.1.1
+
+    - name: Check if rsync is installed and install if not
+      run: |
+        which which
+        which rsync
+        sudo apt-get install -y rsync
     
-    - name: Copy files into cloud server
-      uses: appleboy/scp-action@v0.1.4
-      with:
-        host:  ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.KEY }}
-        source: "."
-        target: /var/www/flask-app      
+#    - name: Copy files into cloud server
+#      uses: appleboy/scp-action@v0.1.4
+#      with:
+#        host:  ${{ secrets.HOST }}
+#        username: ${{ secrets.USERNAME }}
+#        key: ${{ secrets.KEY }}
+#        source: "."
+#        target: /var/www/flask-app      
