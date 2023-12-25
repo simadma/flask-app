@@ -24,8 +24,14 @@ jobs:
 
     - name: Sync newest changes to cloud server
       run: |
-        rsync -rvz --delete --exclude=".*" \
+        rsync -rvz --delete \
+          --exclude=".*" --exclude="*.sock" --exclude="__pycache__" \
           . ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/flask-app
+
+    - name: Update flask permissions
+      run: |
+        ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} \
+          "sudo update_flask_permissions"
 
     - name: Restart gunicorn and nginx services
       run: |
