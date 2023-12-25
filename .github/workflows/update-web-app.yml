@@ -33,6 +33,13 @@ jobs:
         ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} \
           "sudo update_flask_permissions"
 
+    - name: Install (new) requirements
+      run: |
+        ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} \
+          "cd /var/www/flask-app && \
+          source .venv/bin/activate && \
+          pip install -r requirements.txt"
+
     - name: Restart gunicorn and nginx services
       run: |
         ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} \
